@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\BookCollection;
+use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Illuminate\Http\Request;
+/*use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;*/
 
 class BookController extends Controller
 {
@@ -15,7 +19,7 @@ class BookController extends Controller
     public function index()
     {
         $books= Book::all();
-        return $books;
+        return new BookCollection($books);
     }
 
     /**
@@ -45,9 +49,12 @@ class BookController extends Controller
      * @param  \App\Models\Book  $book
      * @return \Illuminate\Http\Response
      */
-    public function show(Book $book)
+    public function show($book)
     {
-        //
+        $bk = Book::find($book);
+        if (is_null($bk))
+            return response()->json('Data not found', 404); //baci 404 exception
+        return response()->json($bk);
     }
 
     /**
