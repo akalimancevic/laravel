@@ -17,11 +17,10 @@ class CreateBooksTable extends Migration
             $table->id();
             $table->string('slug')->unique();
             $table->string('title');
-            $table->string('excerpt');
-            $table->string('body');
             $table->timestamps();
-            $table->timestamp('pusblished_at')->nullable();
-            //$table->foreignId('author_id');
+            $table->foreignId('author_id');
+            $table->foreignId('user_id');
+           
         });
     }
 
