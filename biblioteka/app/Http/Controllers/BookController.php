@@ -6,8 +6,8 @@ use App\Http\Resources\BookCollection;
 use App\Http\Resources\BookResource;
 use App\Models\Book;
 use Illuminate\Http\Request;
-/*use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;*/
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class BookController extends Controller
 {
@@ -40,7 +40,25 @@ class BookController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:100',
+            'description' => 'required|string|min:10',
+            'author_id' => 'required'
+        ]);
+
+        if ($validator->fails())
+            return response()->json($validator->errors());
+
+        $book = Book::create([
+            'title' => $request->title,
+            'slug' => $request->slug,
+            'description' => $request->description,
+            'author_id' => $request->author_id,
+            'user_id' => Auth::user()->id, 
+        ]);
+
+        return response()->json(['Book is created successfully.', new BookResource($book)]);
     }
 
     /**
@@ -53,7 +71,7 @@ class BookController extends Controller
     {
         $bk = Book::find($book);
         if (is_null($bk))
-            return response()->json('Data not found', 404); //baci 404 exception
+            return response()->json('Data not found', 404); 
         return response()->json($bk);
     }
 
@@ -77,7 +95,25 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:100',
+            'description' => 'required|string|min:10',
+            'author_id' => 'required'
+        ]);
+
+        if ($validator->fails())
+            return response()->json($validator->errors());
+
+        
+        $book->title = $request->title;
+        $book->slug = $request->slug;
+        $book->description = $request->description;
+        $book->author_id = $request->author_id;
+
+        $book->save();
+
+        return response()->json(['Book is updated successfully.', new BookResource($book)]);
     }
 
     /**
@@ -88,6 +124,8 @@ class BookController extends Controller
      */
     public function destroy(Book $book)
     {
-        //
+        $book->delete();
+
+        return response()->json('Book is deleted successfully.');
     }
 }
