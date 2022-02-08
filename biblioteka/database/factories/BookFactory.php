@@ -17,10 +17,11 @@ class BookFactory extends Factory
     {
         return [
             'title' => $this->faker->word(),
-            'description' => $this->faker->sentence(),
-            'slug' => $this->faker->slug(),
-            'user_id' => User::factory(),
-            'author_id' => Author::factory(),
+            'description' => $this->faker->paragraph(),
+            'price' => rand(1, 199) * 100,
+            'book_image_path' => null,
+            'genre_id' => Genre::all()->random()->id,
+            'author_id' => Author::all()->random()->id,
         ];
     }
 }
