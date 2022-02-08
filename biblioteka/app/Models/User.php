@@ -42,9 +42,9 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function rents()
+    public function books()
     {
-        return $this->hasMany(Rent::class, 'user_id', 'id');
+        return $this->belongsToMany(Book::class)->using(Rent::class); 
     }
     public function role()
     {

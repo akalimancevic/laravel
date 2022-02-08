@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnAgeToAuthorsTable extends Migration
+class CreateGenresTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class AddColumnAgeToAuthorsTable extends Migration
      */
     public function up()
     {
-        Schema::table('authors', function (Blueprint $table) {
-            $table->integer('age');
+        Schema::create('genres', function (Blueprint $table) {
+            $table->id();
+            $table->string('genre_name');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ class AddColumnAgeToAuthorsTable extends Migration
      */
     public function down()
     {
-        Schema::table('authors', function (Blueprint $table) {
-            $table->dropColumn('age');
-        });
+        Schema::dropIfExists('genres');
     }
 }

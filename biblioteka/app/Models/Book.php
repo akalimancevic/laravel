@@ -14,6 +14,7 @@ class Book extends Model
         'title',
         'description',
         'book_price',
+        'quantity',
         'book_image_path',
         'author_id',
         'genre_id',
@@ -28,9 +29,9 @@ class Book extends Model
     {
         return $this->belongsTo(Genre::class, 'genre_id');
     }
-    public function rents()
+    public function users()
     {
-        return $this->belongsToMany(Rent::class, 'books_rents', 'book_id', 'rent_id');
+        return $this->belongsToMany(User::class)->using(Rent::class);
     }
     
 }

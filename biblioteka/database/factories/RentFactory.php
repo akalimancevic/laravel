@@ -3,6 +3,8 @@
 namespace Database\Factories;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
+use App\Models\User;
+use App\Models\Book;
 
 class RentFactory extends Factory
 {
@@ -15,7 +17,8 @@ class RentFactory extends Factory
     {
         return [
             'user_id' => User::all()->random()->id,
-            'created_at' => $this->faker->dateTimeInInterval('-7 days', '+14 days')
+            'book_id' => Book::all()->random()->id,
+            'status' => rand(0,1)
         ];
     }
 }

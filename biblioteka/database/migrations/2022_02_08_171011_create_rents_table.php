@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class DeleteColumnAgeFromAuthorsTable extends Migration
+class CreateRentsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,10 @@ class DeleteColumnAgeFromAuthorsTable extends Migration
      */
     public function up()
     {
-        Schema::table('authors', function (Blueprint $table) {
-            $table->dropColumn('age');
+        Schema::create('rent', function (Blueprint $table) {
+            $table->id();
+            $table->integer('status');
+            $table->timestamps();
         });
     }
 
@@ -25,8 +27,6 @@ class DeleteColumnAgeFromAuthorsTable extends Migration
      */
     public function down()
     {
-        Schema::table('authors', function (Blueprint $table) {
-            $table->integer('age');
-        });
+        Schema::dropIfExists('rent');
     }
 }
