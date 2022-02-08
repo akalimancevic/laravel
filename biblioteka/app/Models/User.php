@@ -41,4 +41,21 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function rents()
+    {
+        return $this->hasMany(Rent::class, 'user_id', 'id');
+    }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+    public function isAdmin()
+    {
+        if ($this->role->role_name === 'admin') {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }
