@@ -18,7 +18,7 @@ class RentFactory extends Factory
         return [
             'user_id' => User::all()->random()->id,
             'book_id' => Book::all()->random()->id,
-            'status' => rand(0,1)
+            'status' => array_rand(array('IZNAJMLJENA', 'VRACENA'))
         ];
     }
 }
