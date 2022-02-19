@@ -18,8 +18,33 @@ class BookController extends Controller
      */
     public function index()
     {
-        $books= Book::all();
-        return new BookCollection($books);
+        // $books= Book::with(['author', 'genre'])->paginate();
+        // return new BookCollection($books);
+    }
+
+    public function getBooksPaginate(Request $request)
+    {
+
+        $builder = Book::query();
+        $term = $request->query();
+
+
+        $perPage = 24;
+
+        if (!empty($term['genres'])) {
+            $builder->whereIn('genre_id', $term['genres']);
+        }
+
+        if (!empty($term['authors'])) {
+            $builder->whereIn('author_id', $term['authors']);
+        }
+
+        if (!empty($term['perPage'])) {
+            $perPage = $term['perPage'];
+        }
+
+        $books = $builder->with(['genre', 'author'])->paginate($perPage);
+        return response()->json(['books' => $books], 200);
     }
 
     /**
@@ -55,7 +80,7 @@ class BookController extends Controller
             'slug' => $request->slug,
             'description' => $request->description,
             'author_id' => $request->author_id,
-            'user_id' => Auth::user()->id, 
+            'user_id' => Auth::user()->id,
         ]);
 
         return response()->json(['Book is created successfully.', new BookResource($book)]);
@@ -71,7 +96,7 @@ class BookController extends Controller
     {
         $bk = Book::find($book);
         if (is_null($bk))
-            return response()->json('Data not found', 404); 
+            return response()->json('Data not found', 404);
         return response()->json($bk);
     }
 
@@ -96,16 +121,16 @@ class BookController extends Controller
     public function update(Request $request, Book $book)
     {
         $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255', 
-           'slug' => 'required|string|max:100',
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:100',
             'description' => 'required|string|min:10',
-           'author_id' => 'required'
+            'author_id' => 'required'
         ]);
 
         if ($validator->fails())
             return response()->json($validator->errors());
 
-        
+
         $book->title = $request->title;
         $book->slug = $request->slug;
         $book->description = $request->description;

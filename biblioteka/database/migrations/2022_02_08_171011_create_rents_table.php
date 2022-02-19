@@ -15,7 +15,7 @@ class CreateRentsTable extends Migration
     {
         Schema::create('rent', function (Blueprint $table) {
             $table->id();
-            $table->enum('status', array('IZNAJMLJENA', 'VRACENA'));
+            $table->string('status');
             $table->timestamps();
         });
     }
