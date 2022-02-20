@@ -97,7 +97,7 @@
                     type: "PUT",
                     url: "http://127.0.0.1:8000/api/admin/rents/" + e.target.id,
                     data: {
-                        rent_id: $(this).val()
+                        status: $(this).val()
                     },
                     dataType: "JSON",
                     success: function(response) {

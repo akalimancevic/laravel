@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Rent;
 use Illuminate\Http\Request;
 
 class PageController extends Controller
@@ -23,5 +24,11 @@ class PageController extends Controller
     {
 
         return view('rents');
+    }
+
+    public function statisticsPage()
+    {
+
+        return view('statistics', [ 'rents' => Rent::all()]);
     }
 }

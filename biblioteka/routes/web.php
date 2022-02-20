@@ -26,4 +26,6 @@ Route::get('/knjige', [PageController::class, 'booksPage']);
 Route::get('/knjiga/{id}', [PageController::class, 'bookPage']);
 
 Route::get('/iznajmljivanja', [PageController::class, 'rentsPage']);
+Route::get('/statistika', [PageController::class, 'statisticsPage']);
+
 

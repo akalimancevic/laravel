@@ -33,6 +33,7 @@ Route::get('/genres', [GenreController::class, 'index'])->name('genres.index');
 Route::get('/rents', [RentController::class, 'getMyRentsDatatable'])->middleware('auth:sanctum');
 
 Route::get('/admin/rents', [RentController::class, 'getAllRentsDatatable'])->middleware(['auth:sanctum', 'admin']);
+Route::put('/admin/rents/{id}', [RentController::class, 'updateRentStatus'])->middleware('auth:sanctum');
 
 
 

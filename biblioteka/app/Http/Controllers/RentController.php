@@ -34,6 +34,15 @@ class RentController extends Controller
         return $datatable;
     }
 
+    public function updateRentStatus($id, Request $request)
+    {
+        $rent = Rent::find($id);
+
+        $rent->status = $request->input('status');
+
+        $rent->save();
+    }
+
     /**
      * Show the form for creating a new resource.
      *

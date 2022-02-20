@@ -27,6 +27,6 @@ class DatabaseSeeder extends Seeder
         Author::factory(4)->create();
         Genre::factory(7)->create();
         Book::factory(100)->create();
-        Rent::factory(2)->create();
+        Rent::factory(300)->create();
     }
 }
