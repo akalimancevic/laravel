@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthorBookController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\RentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,6 +29,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::get('/books', [BookController::class, 'getBooksPaginate']);
 Route::get('/authors', [AuthorController::class, 'index'])->name('authors.index');
 Route::get('/genres', [GenreController::class, 'index'])->name('genres.index');
+
+Route::get('/rents', [RentController::class, 'getMyRentsDatatable'])->middleware('auth:sanctum');
+
+Route::get('/admin/rents', [RentController::class, 'getAllRentsDatatable'])->middleware(['auth:sanctum', 'admin']);
+
 
 
 Route::get('/authors/{id}', [AuthorController::class, 'show'])->name('authors.show');

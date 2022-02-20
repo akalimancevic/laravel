@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Rent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Yajra\DataTables\DataTables;
 
 class RentController extends Controller
 {
@@ -14,7 +16,22 @@ class RentController extends Controller
      */
     public function index()
     {
-        
+    }
+
+    public function getAllRentsDatatable()
+    {
+
+        $getData = Rent::with('user', 'book')->get();
+        $datatable = DataTables::of($getData)->make(true);
+        return $datatable;
+    }
+
+    public function getMyRentsDatatable()
+    {
+
+        $getData = Auth::user()->rents()->with('user', 'book')->get();
+        $datatable = DataTables::of($getData)->make(true);
+        return $datatable;
     }
 
     /**

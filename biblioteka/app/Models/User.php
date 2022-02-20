@@ -50,6 +50,9 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class);
     }
+    public function rents() {
+        return $this->hasMany(Rent::class);
+    }
     public function isAdmin()
     {
         if ($this->role->role_name === 'admin') {
