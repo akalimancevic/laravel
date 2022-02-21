@@ -52,9 +52,21 @@ class BookController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $book = Book::create($request->all());
+
+        $path = null;
+        if ($request->hasFile('book_image_path')) {
+            $book_image_path = $request->file('book_image_path');
+            $naziv = time() . '.' . $book_image_path->getClientOriginalExtension();
+
+            $path = $book_image_path->storeAs('', $naziv, 'public');
+        };
+
+        $book->book_image_path = $path;
+        $book->save();
+        return response()->json(['message' => 'Knjiga uspesno napravljena'], 200);
     }
 
     /**
@@ -120,25 +132,21 @@ class BookController extends Controller
      */
     public function update(Request $request, Book $book)
     {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:100',
-            'description' => 'required|string|min:10',
-            'author_id' => 'required'
-        ]);
 
-        if ($validator->fails())
-            return response()->json($validator->errors());
+        if ($book->fill($request->input())->save()) {
+            $path = null;
+            if ($request->hasFile('book_image_path')) {
+                $book_image_path = $request->file('book_image_path');
+                $naziv = time() . '.' . $book_image_path->getClientOriginalExtension();
 
+                $path = $book_image_path->storeAs('', $naziv, 'public');
+            };
 
-        $book->title = $request->title;
-        $book->slug = $request->slug;
-        $book->description = $request->description;
-        $book->author_id = $request->author_id;
-
-        $book->save();
-
-        return response()->json(['Book is updated successfully.', new BookResource($book)]);
+            $book->book_image_path = $path;
+            $book->save();
+            return response()->json(['message' => 'Knjiga uspesno izmenjena.'], 200);
+        }
+        return response()->json(['message' => 'Greska prilikom izmene.'], 200);
     }
 
     /**
@@ -151,6 +159,6 @@ class BookController extends Controller
     {
         $book->delete();
 
-        return response()->json('Book is deleted successfully.');
+        return response()->json(['message' => 'Knjiga uspesno obrisana']);
     }
 }
