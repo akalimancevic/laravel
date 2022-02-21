@@ -1,3 +1,4 @@
+import { Alert, Snackbar } from '@mui/material';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
 import ReactDOM from 'react-dom';
@@ -11,11 +12,17 @@ function BooksPage() {
         perRow: 3
     })
 
+    const [snackBarOpts, setSnackBarOpts] = useState({
+        success: false,
+        error: false
+    });
 
     const [helpers, setHelpers] = useState({
         authors: [],
         genres: []
     })
+
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
     const [filtersState, setFiltersState] = useState('');
 
@@ -43,7 +50,7 @@ function BooksPage() {
     const getBooks = (filters = null, pageNumber = 1) => {
 
         if (filters)
-            axios.get(`/api/books?page=${pageNumber}&perPage=${options.perPage}&${filters}`)
+            axios.get(`/api/books?page=${pageNumber ? pageNumber : books.current_page}&perPage=${options.perPage}&${filters}`)
                 .then((res) => {
                     setBooks(res.data.books);
 
@@ -51,13 +58,13 @@ function BooksPage() {
 
         else
             if (filtersState != '')
-                axios.get(`/api/books?page=${pageNumber}&perPage=${options.perPage}&${filtersState}`)
+                axios.get(`/api/books?page=${pageNumber ? pageNumber : books.current_page}&perPage=${options.perPage}&${filtersState}`)
                     .then((res) => {
                         setBooks(res.data.books);
 
                     });
             else
-                axios.get(`/api/books?page=${pageNumber}&perPage=${options.perPage}`)
+                axios.get(`/api/books?page=${pageNumber ? pageNumber : books.current_page}&perPage=${options.perPage}`)
                     .then((res) => {
                         setBooks(res.data.books);
 
@@ -113,6 +120,18 @@ function BooksPage() {
 
     }
 
+    const handleClose = (event, reason) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+
+        setSnackBarOpts({
+
+            success: false,
+            error: false,
+        });
+    };
+
     const setFilters = (e) => {
 
         const authors = $('#authors_select').val() || [];
@@ -165,7 +184,7 @@ function BooksPage() {
                 </div>
             </div>
             <br></br>
-            <BooksComponent books={books.data || []} perRow={options.perRow} />
+            <BooksComponent loadBooks={getBooks} books={books.data || []} perRow={options.perRow} />
 
             <div className="d-flex justify-content-center mt-4">
                 <Pagination
@@ -181,6 +200,24 @@ function BooksPage() {
                     linkClass="page-link"
                 />
             </div>
+
+            <Snackbar
+                open={snackBarOpts.success}
+                autoHideDuration={3000}
+                onClose={handleClose}
+                message="Note archived"
+            >
+                <Alert severity="success">{snackbarMessage}</Alert>
+            </Snackbar>
+
+            <Snackbar
+                open={snackBarOpts.error}
+                autoHideDuration={3000}
+                onClose={handleClose}
+                message="Note archived"
+            >
+                <Alert severity="error">{snackbarMessage}</Alert>
+            </Snackbar>
         </div>
     );
 }
