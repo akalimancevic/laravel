@@ -27,14 +27,21 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/books', [BookController::class, 'getBooksPaginate']);
+Route::post('/books/{id}/rents', [RentController::class, 'create']);
 Route::get('/authors', [AuthorController::class, 'index'])->name('authors.index');
 Route::get('/genres', [GenreController::class, 'index'])->name('genres.index');
-
 Route::get('/rents', [RentController::class, 'getMyRentsDatatable'])->middleware('auth:sanctum');
 
-Route::get('/admin/rents', [RentController::class, 'getAllRentsDatatable'])->middleware(['auth:sanctum', 'admin']);
-Route::put('/admin/rents/{id}', [RentController::class, 'updateRentStatus'])->middleware('auth:sanctum');
 
+Route::group(['prefix' => 'admin', 'middleware' => ['auth:sanctum', 'admin']], function () {
+    Route::get('/rents', [RentController::class, 'getAllRentsDatatable'])->middleware(['auth:sanctum', 'admin']);
+    Route::put('/rents/{id}', [RentController::class, 'updateRentStatus'])->middleware('auth:sanctum');
+    Route::post('/books', [BookController::class, 'create']);
+    Route::put('/books/{book}', [BookController::class, 'update']);
+    Route::delete('/books/{book}', [BookController::class, 'destroy']);
+    Route::post('/authors', [AuthorController::class, 'create']);
+    Route::delete('/authors/{author}', [AuthorController::class, 'destroy']);
+});
 
 
 Route::get('/authors/{id}', [AuthorController::class, 'show'])->name('authors.show');

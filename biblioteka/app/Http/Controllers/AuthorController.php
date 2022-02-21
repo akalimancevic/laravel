@@ -25,9 +25,13 @@ class AuthorController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $author = Author::create($request->all());
+
+        if($author){
+            return response()->json(['message' => 'Uspesno napravljen autor!']);
+        }
     }
 
     /**
@@ -86,6 +90,14 @@ class AuthorController extends Controller
      */
     public function destroy(Author $author)
     {
-        //
+        if ($author->delete()) {
+            return response()->json([
+                'message' => 'Autor uspesno obrisan!'
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Greska prilikom brisanja autora! Kontaktirajte podrsku.'
+        ], 500);
     }
 }

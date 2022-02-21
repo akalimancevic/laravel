@@ -24,6 +24,11 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 
 Route::get('/knjige', [PageController::class, 'booksPage']);
 Route::get('/knjiga/{id}', [PageController::class, 'bookPage']);
+Route::get('/knjige/dodavanje', [PageController::class, 'newBookPage']);
+Route::get('/knjige/iznajmljivanja', [PageController::class, 'rentedBooks']);
+
+Route::get('/autori', [PageController::class, 'authorsPage']);
+Route::get('/autori/dodavanje', [PageController::class, 'newAuthorPage']);
 
 Route::get('/iznajmljivanja', [PageController::class, 'rentsPage']);
 Route::get('/statistika', [PageController::class, 'statisticsPage']);
