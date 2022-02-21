@@ -48,9 +48,26 @@ class RentController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($id, Request $request)
     {
-        //
+        $user = Auth::user();
+
+        $book_id = $id;
+
+        $userRents = $user->rents;
+        if (count($userRents) > 3) {
+            return response()->json(['message' => 'Vec imate preko 3 dozvoljene iznajmljene knjige. Vratite neku od tih kako biste uzeli novu.'], 403);
+        }
+        if (Rent::create(
+            [
+                'book_id' => $book_id,
+                'user_id' => $user->id,
+                'status' => 'IZNAJMLJENA'
+            ]
+        )) {
+            return response()->json(['message' => 'Uspesno ste iznajmili knjigu. Imate pravo na ukupno 3 iznajmljene knjige.'], 200);
+        }
+        return response()->json(['message' => 'Doslo je do greske prilikom iznajmljivanja, kontaktirajte nas ako mislite da je greska.'], 500);
     }
 
     /**
