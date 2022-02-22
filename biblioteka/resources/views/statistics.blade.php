@@ -21,8 +21,6 @@
         }) => (c[key] = (c[key] || 0) + 1, c), {});
 
 
-
-
         function drawChart() {
 
             var data = google.visualization.arrayToDataTable([
@@ -53,6 +51,7 @@
 
             pieChart[r.formattedDate] = pieChart[r.formattedDate] ? pieChart[r.formattedDate] + 1 : 1;
         }
+
         console.log(pieChart);
 
         google.charts.load('current', {

@@ -28,7 +28,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 Route::get('/books', [BookController::class, 'getBooksPaginate']);
-Route::post('/books/{id}/rents', [RentController::class, 'create']);
+Route::post('/books/{id}/rents', [RentController::class, 'create'])->middleware('auth:sanctum');
 Route::get('/authors', [AuthorController::class, 'index'])->name('authors.index');
 Route::get('/genres', [GenreController::class, 'index'])->name('genres.index');
 Route::get('/rents', [RentController::class, 'getMyRentsDatatable'])->middleware('auth:sanctum');
@@ -43,24 +43,3 @@ Route::group(['prefix' => 'admin', 'middleware' => ['auth:sanctum', 'admin']], f
     Route::post('/authors', [AuthorController::class, 'create']);
     Route::delete('/authors/{author}', [AuthorController::class, 'destroy']);
 });
-
-
-Route::get('/authors/{id}', [AuthorController::class, 'show'])->name('authors.show');
-Route::resource('authors.books', AuthorBookController::class)->only(['index']);
-
-Route::post('/register', [AuthController::class, 'register']);
-
-Route::post('/login', [AuthController::class, 'login']);
-
-
-Route::group(['middleware' => ['auth:sanctum']], function () {
-    Route::get('/profile', function (Request $request) {
-        return auth()->user();
-    });
-
-    // Route::resource('books', BookController::class)->only(['update', 'store', 'destroy']);
-
-    Route::post('/logout', [AuthController::class, 'logout']);
-});
-// Route::resource('books', BookController::class)->only(['index']);
-Route::get('/books/{id}', [BookController::class, 'show'])->name('books.show');

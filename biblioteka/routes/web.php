@@ -24,7 +24,6 @@ Auth::routes();
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::get('/knjige', [PageController::class, 'booksPage']);
-Route::get('/knjiga/{id}', [PageController::class, 'bookPage']);
 Route::get('/knjige/dodavanje', [PageController::class, 'newBookPage']);
 Route::get('/knjige/iznajmljene', [PageController::class, 'rentedBooks']);
 
@@ -34,4 +33,3 @@ Route::get('/autori/dodavanje', [PageController::class, 'newAuthorPage']);
 Route::get('/iznajmljivanja', [PageController::class, 'rentsPage']);
 Route::get('/statistika', [PageController::class, 'statisticsPage']);
 Route::get('rents/{rent}/pdf', [PdfController::class, 'generatePDF']);
-Route::get('/test/{rent}', [PdfController::class, 'testPdf']);

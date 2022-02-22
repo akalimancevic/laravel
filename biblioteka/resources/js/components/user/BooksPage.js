@@ -41,7 +41,6 @@ function BooksPage() {
 
         const adjustedOptions = { ...options };
         adjustedOptions[type] = value;
-
         setOptions(adjustedOptions)
     }
 
@@ -122,7 +121,7 @@ function BooksPage() {
 
         const authors = $('#authors_select').val() || [];
         const genres = $('#genres_select').val() || [];
-
+        
         console.log(genres);
         let queryFilterString = authors.map(author => `authors[]=${author}`).join('&')
             + '&'
@@ -146,7 +145,6 @@ function BooksPage() {
                     Žanrovi
                     <br></br>
                     <select id="genres_select" onChange={setFilters} name="genres" class="selectpicker" multiple data-live-search="true">
-
                     </select>
                 </div>
                 <div className="col">
