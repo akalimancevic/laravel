@@ -75,28 +75,7 @@ class BookController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
-    {
-        $validator = Validator::make($request->all(), [
-            'title' => 'required|string|max:255',
-            'slug' => 'required|string|max:100',
-            'description' => 'required|string|min:10',
-            'author_id' => 'required'
-        ]);
-
-        if ($validator->fails())
-            return response()->json($validator->errors());
-
-        $book = Book::create([
-            'title' => $request->title,
-            'slug' => $request->slug,
-            'description' => $request->description,
-            'author_id' => $request->author_id,
-            'user_id' => Auth::user()->id,
-        ]);
-
-        return response()->json(['Book is created successfully.', new BookResource($book)]);
-    }
+   
 
     /**
      * Display the specified resource.

@@ -35,8 +35,8 @@ Route::get('/rents', [RentController::class, 'getMyRentsDatatable'])->middleware
 Route::get('/rents/my', [RentController::class, 'getMyRentsDatatable'])->middleware('auth:sanctum');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth:sanctum', 'admin']], function () {
-    Route::get('/rents', [RentController::class, 'getAllRentsDatatable'])->middleware(['auth:sanctum', 'admin']);
-    Route::put('/rents/{id}', [RentController::class, 'updateRentStatus'])->middleware('auth:sanctum');
+    Route::get('/rents', [RentController::class, 'getAllRentsDatatable']);
+    Route::put('/rents/{id}', [RentController::class, 'updateRentStatus']);
     Route::post('/books', [BookController::class, 'create']);
     Route::put('/books/{book}', [BookController::class, 'update']);
     Route::delete('/books/{book}', [BookController::class, 'destroy']);
