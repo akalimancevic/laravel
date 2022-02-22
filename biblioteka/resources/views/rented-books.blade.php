@@ -2,5 +2,5 @@
 
 @section('content')
 
-<div id="rented-books"></div>
+<div id="rented-books-page"></div>
 @endsection

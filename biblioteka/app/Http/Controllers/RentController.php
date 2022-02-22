@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Book;
 use App\Models\Rent;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -34,13 +35,35 @@ class RentController extends Controller
         return $datatable;
     }
 
+    public function getMyRents()
+    {
+
+        $getData = Auth::user()->whereHas('rents', function ($q) {
+            $q->where('status', 'IZNAJMLJENA');
+        })->with('user', 'book')->get();
+        $datatable = DataTables::of($getData)->make(true);
+        return $datatable;
+    }
+
     public function updateRentStatus($id, Request $request)
     {
         $rent = Rent::find($id);
 
         $rent->status = $request->input('status');
 
-        $rent->save();
+        if ($rent->save()) {
+
+            $book = Book::find($rent->book_id);
+            if ($request->input('status') == "IZNAJMLJENA") {
+
+                $book->quantity -= 1;
+            } else {
+
+                $book->quantity += 1;
+            }
+
+            $book->save();
+        }
     }
 
     /**

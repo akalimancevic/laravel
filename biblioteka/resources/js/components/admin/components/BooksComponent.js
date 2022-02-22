@@ -102,10 +102,6 @@ function Book(props) {
                         <i class="fa-solid fa-pen"></i>
                     </button>
 
-                    {/* nova stranica */}
-                    <button className="btn icon-hover">
-                        <i class="fa-solid fa-eye"></i>
-                    </button>
                 </div>
                 <img src={props.book.book_image_path ? `storage/${props.book.book_image_path}` : `img/book-placeholder.jpeg`} class="card-img-top" alt="..." />
                 <div class="card-body">

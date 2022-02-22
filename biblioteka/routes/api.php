@@ -7,6 +7,7 @@ use App\Http\Controllers\AuthorBookController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\BookController;
 use App\Http\Controllers\GenreController;
+use App\Http\Controllers\PdfController;
 use App\Http\Controllers\RentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -31,7 +32,7 @@ Route::post('/books/{id}/rents', [RentController::class, 'create']);
 Route::get('/authors', [AuthorController::class, 'index'])->name('authors.index');
 Route::get('/genres', [GenreController::class, 'index'])->name('genres.index');
 Route::get('/rents', [RentController::class, 'getMyRentsDatatable'])->middleware('auth:sanctum');
-
+Route::get('/rents/my', [RentController::class, 'getMyRentsDatatable'])->middleware('auth:sanctum');
 
 Route::group(['prefix' => 'admin', 'middleware' => ['auth:sanctum', 'admin']], function () {
     Route::get('/rents', [RentController::class, 'getAllRentsDatatable'])->middleware(['auth:sanctum', 'admin']);

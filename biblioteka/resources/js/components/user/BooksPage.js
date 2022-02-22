@@ -11,7 +11,12 @@ function BooksPage() {
         perRow: 3
     })
 
+    const [snackbarMessage, setSnackbarMessage] = useState('');
 
+    const [snackBarOpts, setSnackBarOpts] = useState({
+        success: false,
+        error: false
+    });
     const [helpers, setHelpers] = useState({
         authors: [],
         genres: []
@@ -187,6 +192,6 @@ function BooksPage() {
 
 export default BooksPage;
 
-if (document.getElementById('books_admin')) {
-    ReactDOM.render(<BooksPage />, document.getElementById('books_admin'));
+if (document.getElementById('books_user')) {
+    ReactDOM.render(<BooksPage />, document.getElementById('books_user'));
 }

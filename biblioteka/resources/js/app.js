@@ -16,3 +16,6 @@ require('./components/admin/BooksPage');
 require('./components/admin/NewBookPage');
 require('./components/admin/NewAuthorPage');
 require('./components/admin/AuthorsPage');
+
+require('./components/user/BooksPage');
+require('./components/user/RentedBooksPage');

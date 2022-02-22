@@ -21,9 +21,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
     <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/css/bootstrap-select.css" />
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-        
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.1/js/bootstrap-select.min.js"></script>
@@ -70,18 +69,20 @@
                                     @endauth
                                 </div>
                             </li>
-                            <li class="nav-item dropdown">
-                                <a id="authorsDropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-                                    v-pre class="nav-link dropdown-toggle" href="#">Autori</a>
-                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="authorsDropdown">
-                                    <a class="nav-link" href="/autori">Pogledaj</a>
-                                    @auth
-                                        @if (Auth::check() && Auth::user()->isAdmin())
-                                            <a class="nav-link" href="/autori/dodavanje">Dodaj novog</a>
-                                        @endif
-                                    @endauth
-                                </div>
-                            </li>
+                            @if (Auth::check() && Auth::user()->isAdmin())
+                                <li class="nav-item dropdown">
+                                    <a id="authorsDropdown" data-bs-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false" v-pre class="nav-link dropdown-toggle" href="#">Autori</a>
+                                    <div class="dropdown-menu dropdown-menu-end" aria-labelledby="authorsDropdown">
+                                        <a class="nav-link" href="/autori">Pogledaj</a>
+                                        @auth
+                                            @if (Auth::check() && Auth::user()->isAdmin())
+                                                <a class="nav-link" href="/autori/dodavanje">Dodaj novog</a>
+                                            @endif
+                                        @endauth
+                                    </div>
+                                </li>
+                            @endif
 
                             <li class="nav-item">
                                 <a class="nav-link" href="/iznajmljivanja">Iznajmljivanja</a>
@@ -119,7 +120,7 @@
                                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                         onclick="event.preventDefault();
-                                                                                                                                     document.getElementById('logout-form').submit();">
+                                                                                                                                         document.getElementById('logout-form').submit();">
                                         {{ __('Logout') }}
                                     </a>
 
