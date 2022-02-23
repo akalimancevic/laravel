@@ -51,13 +51,7 @@ class AuthorController extends Controller
      * @param  \App\Models\Author  $author
      * @return \Illuminate\Http\Response
      */
-    public function show($author_id)
-    {
-        $author = Author::find($author_id);
-        if (is_null($author))
-            return response()->json('Data not found', 404); //baci 404 exception
-        return response()->json($author);
-    }
+  
 
     /**
      * Show the form for editing the specified resource.
